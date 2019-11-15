@@ -2,6 +2,8 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const Users = require('../users/users-model')
+const { validateUser } = require('../users/users-helpers')
 
 
 router.post('/register', (req, res) => {
@@ -21,6 +23,7 @@ router.post('/register', (req, res) => {
       res.status(500).json(error)
     })
   } else {
+    console.log('hello')
     res.status(400).json({
       message: " invalid information about the user, see errors for details",
       errors: validateResult.errors
@@ -55,7 +58,7 @@ function getJwtToken(username){
   const payload ={
     username,
     role: "student"
-  },
+  };
   const secret = process.env.JWT_SECRET || "is it secret, is it safe?";
 
   const options = {
